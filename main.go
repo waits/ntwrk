@@ -18,7 +18,7 @@ func main() {
 	case "help":
 		help()
 	case "server":
-		fmt.Println("Not implemented yet :(")
+		startServer()
 	case "test":
 		fmt.Println("Not implemented yet :(")
 	case "version":
