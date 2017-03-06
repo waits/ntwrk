@@ -22,7 +22,7 @@ func perform(ctx testContext) {
 
 	t := time.Now()
 	conn.Write([]byte(ctx.Action + "\n"))
-	bytes, err := ctx.Fn(conn)
+	bytes, err := ctx.Fn(conn, MAX)
 	if err != nil {
 		fmt.Printf("Test failed: %s", err.Error())
 		return
