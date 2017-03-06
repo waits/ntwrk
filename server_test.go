@@ -36,13 +36,13 @@ func TestDownload(t *testing.T) {
 
 	conn.Write([]byte("DOWNLOAD\n"))
 	data := make([]byte, 1024)
-	read := 0
+	bytes := 0
 	for {
 		n, err := conn.Read(data)
-		read += n
+		bytes += n
 		if err != nil {
-			if read != 1024*64 {
-				t.Fatalf("received %d bytes; expected %d", read, 1024*64)
+			if bytes != UPLOAD_LIMIT {
+				t.Fatalf("received %d bytes; expected %d", bytes, UPLOAD_LIMIT)
 			}
 			break
 		}

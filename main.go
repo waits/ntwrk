@@ -5,7 +5,6 @@ import "fmt"
 import "os"
 
 const ADDR = ":1600"
-const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 const VERSION = "0.1.0-alpha"
 
 func main() {

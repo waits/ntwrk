@@ -2,6 +2,9 @@ package main
 
 import "net"
 
+const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+const UPLOAD_LIMIT = 1024 * 1024
+
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
 	Fn     func(net.Conn) (int, error)
@@ -23,14 +26,14 @@ func download(conn net.Conn) (bytes int, err error) {
 }
 
 // upload writes data to `conn` and returns the number of bytes written.
-func upload(conn net.Conn) (int, error) {
-	bytes := 0
-	for i := 0; i < 1024; i++ {
-		n, err := conn.Write([]byte(DATA))
+func upload(conn net.Conn) (bytes int, err error) {
+	var n int
+	for bytes < UPLOAD_LIMIT {
+		n, err = conn.Write([]byte(DATA))
 		if err != nil {
-			return 0, err
+			return
 		}
 		bytes += n
 	}
-	return bytes, nil
+	return
 }
