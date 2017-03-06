@@ -4,13 +4,6 @@ import "net"
 
 const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-// testContext holds a test function, action name, and address to connect to.
-type testContext struct {
-	Fn     func(net.Conn, int) (int, error)
-	Action string
-	Addr   string
-}
-
 // download reads data from `conn` and returns the number of bytes read.
 func download(conn net.Conn, _ int) (bytes int, err error) {
 	data := make([]byte, 1024)

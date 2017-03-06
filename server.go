@@ -34,13 +34,13 @@ func handle(conn net.Conn) {
 	msg, _ := buf.ReadString('\n')
 	action := strings.TrimSpace(msg)
 	switch action {
-	case "DOWNLOAD":
+	case ":download":
 		bytes, _ := upload(conn, MAX)
 		log.Printf("Sent %d bytes to %v", bytes, remote)
-	case "UPLOAD":
+	case ":upload":
 		bytes, _ := download(conn, MAX)
 		log.Printf("Received %d bytes from %v", bytes, remote)
 	default:
-		log.Fatalf("Unknown action %s", action)
+		log.Printf("Unknown action %s", action)
 	}
 }

@@ -5,7 +5,8 @@ import "fmt"
 import "os"
 
 const ADDR = ":1600"
-const MAX = 1024 * 1024
+const BASE = 1024
+const MAX = BASE * BASE
 const VERSION = "0.1.0-alpha"
 
 func main() {
