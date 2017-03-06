@@ -4,6 +4,8 @@ package main
 import "fmt"
 import "os"
 
+const ADDR = ":1600"
+const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 const VERSION = "0.1.0-alpha"
 
 func main() {
@@ -18,7 +20,7 @@ func main() {
 	case "help":
 		help()
 	case "server":
-		startServer()
+		startServer(ADDR)
 	case "test":
 		fmt.Println("Not implemented yet :(")
 	case "version":

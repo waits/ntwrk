@@ -7,15 +7,13 @@ import (
 	"time"
 )
 
-const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-
-// startServer starts a network test server on port 8080.
-func startServer() {
-	ln, err := net.Listen("tcp", ":8080")
+// startServer starts a network test server on `addr`.
+func startServer(addr string) {
+	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Listening on :8080")
+	log.Printf("Listening on %s\n", addr)
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
@@ -29,11 +27,12 @@ func startServer() {
 func handle(conn net.Conn) {
 	defer conn.Close()
 
-	addr := conn.RemoteAddr()
-	log.Printf("New connection from %v", addr)
+	remote := conn.RemoteAddr()
+	log.Printf("New connection from %v", remote)
 
 	buf := bufio.NewReader(conn)
 	msg, _ := buf.ReadString('\n')
+	log.Println("message:", msg)
 	switch msg {
 	case "UPLOAD\r\n":
 		perform(upload, conn)
