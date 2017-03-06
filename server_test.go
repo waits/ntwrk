@@ -17,7 +17,7 @@ func TestUpload(t *testing.T) {
 	}
 	defer conn.Close()
 
-	conn.Write([]byte("UPLOAD\r\n"))
+	conn.Write([]byte("UPLOAD\n"))
 	for i := 0; i < 64; i++ {
 		conn.Write([]byte(DATA))
 	}
@@ -34,15 +34,15 @@ func TestDownload(t *testing.T) {
 	}
 	defer conn.Close()
 
-	conn.Write([]byte("DOWNLOAD\r\n"))
+	conn.Write([]byte("DOWNLOAD\n"))
 	data := make([]byte, 1024)
 	read := 0
 	for {
 		n, err := conn.Read(data)
 		read += n
 		if err != nil {
-			if read != 1024*60 {
-				t.Fatalf("read %d bytes; expected %d", read, 1024*60)
+			if read != 1024*64 {
+				t.Fatalf("received %d bytes; expected %d", read, 1024*64)
 			}
 			break
 		}

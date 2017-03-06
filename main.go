@@ -22,7 +22,7 @@ func main() {
 	case "server":
 		startServer(ADDR)
 	case "test":
-		fmt.Println("Not implemented yet :(")
+		startClient(ADDR)
 	case "version":
 		fmt.Printf("ntwrk version %s\n", VERSION)
 	default:
