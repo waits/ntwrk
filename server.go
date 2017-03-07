@@ -35,10 +35,10 @@ func handle(conn net.Conn) {
 	action := strings.TrimSpace(msg)
 	switch action {
 	case ":download":
-		bytes, _ := upload(conn, MAX)
+		bytes, _ := upload(conn)
 		log.Printf("Sent %d bytes to %v", bytes, remote)
 	case ":upload":
-		bytes, _ := download(conn, MAX)
+		bytes, _ := download(conn)
 		log.Printf("Received %d bytes from %v", bytes, remote)
 	default:
 		log.Printf("Unknown action %s", action)

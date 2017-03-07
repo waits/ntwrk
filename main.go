@@ -6,7 +6,6 @@ import "os"
 
 const ADDR = ":1600"
 const BASE = 1024
-const MAX = BASE * BASE
 const VERSION = "0.1.0-alpha"
 
 func main() {

@@ -3,9 +3,11 @@ package main
 import (
 	"net"
 	"testing"
+	"time"
 )
 
-const TEST_SIZE = 16 * 1024
+const expected = 1024
+const timeout = time.Millisecond
 
 func listen(t *testing.T, addr string, fn func(net.Conn)) {
 	ln, err := net.Listen("tcp", addr)
@@ -23,22 +25,22 @@ func listen(t *testing.T, addr string, fn func(net.Conn)) {
 func TestDownload(t *testing.T) {
 	addr := ":1616"
 	listen(t, addr, func(conn net.Conn) {
-		for bytes := 0; bytes < TEST_SIZE; {
-			n, _ := conn.Write([]byte(DATA))
-			bytes += n
+		for {
+			conn.Write([]byte(DATA))
 		}
 	})
 
 	conn, err := net.Dial("tcp", addr)
+	conn.SetDeadline(time.Now().Add(timeout))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bytes, err := download(conn, TEST_SIZE)
+	bytes, err := download(conn)
 	if err != nil {
 		t.Fatal(err)
-	} else if bytes != TEST_SIZE {
-		t.Fatalf("incorrect value: got %d want %d", bytes, TEST_SIZE)
+	} else if bytes < expected {
+		t.Fatalf("too few bytes read: got %d want %d", bytes, expected)
 	}
 }
 
@@ -52,14 +54,15 @@ func TestUpload(t *testing.T) {
 	})
 
 	conn, err := net.Dial("tcp", addr)
+	conn.SetDeadline(time.Now().Add(timeout))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bytes, err := upload(conn, TEST_SIZE)
+	bytes, err := upload(conn)
 	if err != nil {
 		t.Fatal(err)
-	} else if bytes != TEST_SIZE {
-		t.Fatalf("incorrect value: got %d want %d", bytes, TEST_SIZE)
+	} else if bytes < expected {
+		t.Fatalf("too few bytes written: got %d want %d", bytes, expected)
 	}
 }

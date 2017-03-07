@@ -12,7 +12,7 @@ var SUFFIXES = [...]string{"B", "kB", "MB", "GB", "TB", "PB", "EB"}
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
 	Action string
-	Fn     func(net.Conn, int) (int, error)
+	Fn     func(net.Conn) (int, error)
 	Addr   string
 }
 
@@ -30,12 +30,16 @@ func perform(ctx testContext) {
 	}
 
 	t := time.Now()
+	deadline := t.Add(time.Duration(15) * time.Second)
+	conn.SetDeadline(deadline)
 	conn.Write([]byte(":" + ctx.Action + "\n"))
-	bytes, err := ctx.Fn(conn, MAX)
+
+	bytes, err := ctx.Fn(conn)
 	if err != nil {
 		fmt.Printf("error: %s\n", err.Error())
 		return
 	}
+
 	elapsed := time.Since(t).Seconds()
 	fmt.Printf("%s bandwidth: %s\n", ctx.Action, format(bytes, elapsed))
 }
