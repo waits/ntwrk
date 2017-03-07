@@ -7,12 +7,14 @@ import (
 	"time"
 )
 
+const timeout = time.Duration(15) * time.Second
+
 var SUFFIXES = [...]string{"B", "kB", "MB", "GB", "TB", "PB", "EB"}
 
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
 	Action string
-	Fn     func(net.Conn) (int, error)
+	Fn     func(net.Conn, time.Duration) (int, error)
 	Addr   string
 }
 
@@ -30,11 +32,8 @@ func perform(ctx testContext) {
 	}
 
 	t := time.Now()
-	deadline := t.Add(time.Duration(15) * time.Second)
-	conn.SetDeadline(deadline)
 	conn.Write([]byte(":" + ctx.Action + "\n"))
-
-	bytes, err := ctx.Fn(conn)
+	bytes, err := ctx.Fn(conn, timeout)
 	if err != nil {
 		fmt.Printf("error: %s\n", err.Error())
 		return

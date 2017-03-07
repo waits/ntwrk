@@ -7,7 +7,6 @@ import (
 )
 
 const expected = 1024
-const timeout = time.Millisecond
 
 func listen(t *testing.T, addr string, fn func(net.Conn)) {
 	ln, err := net.Listen("tcp", addr)
@@ -31,12 +30,11 @@ func TestDownload(t *testing.T) {
 	})
 
 	conn, err := net.Dial("tcp", addr)
-	conn.SetDeadline(time.Now().Add(timeout))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bytes, err := download(conn)
+	bytes, err := download(conn, time.Millisecond)
 	if err != nil {
 		t.Fatal(err)
 	} else if bytes < expected {
@@ -54,12 +52,11 @@ func TestUpload(t *testing.T) {
 	})
 
 	conn, err := net.Dial("tcp", addr)
-	conn.SetDeadline(time.Now().Add(timeout))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bytes, err := upload(conn)
+	bytes, err := upload(conn, time.Millisecond)
 	if err != nil {
 		t.Fatal(err)
 	} else if bytes < expected {
