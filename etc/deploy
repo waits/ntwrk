@@ -26,7 +26,7 @@ ssh -i etc/deploy_key -o StrictHostKeyChecking=no $HOST <<-EOF
 	ln -nsf $DIR $ROOT/cur
 	sudo service ntwrk restart
 
-    curl -I https://ntwrk.waits.io
+    nc -z ntwrk.waits.io 1600
 
 	rm $TMP
 	cd $ROOT/rel && ls -t | tail -n +6 | xargs rm -rf
