@@ -7,7 +7,7 @@ Type=simple
 User=root
 Group=root
 WorkingDirectory=/opt/ntwrk/cur
-ExecStart=/opt/ntwrk/cur/ntwrk
+ExecStart=/opt/ntwrk/cur/ntwrk server
 Restart=on-failure
 
 [Install]
