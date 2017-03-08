@@ -1,0 +1,14 @@
+[Unit]
+Description=Ntwrk server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/ntwrk/cur
+ExecStart=/opt/ntwrk/cur/ntwrk
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

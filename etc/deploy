@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Bundles the application, uploads it to the server, and restarts the daemon.
+
+set -e -x
+
+HOST=root@ntwrk.waits.io
+ROOT=/opt/ntwrk
+HASH=$(git rev-parse --short=7 HEAD)
+DIR=$ROOT/rel/$HASH
+TMP=/tmp/ntwrk-$HASH.tar.gz
+SERVICE_DIR=/etc/systemd/system
+
+tar -czf ntwrk.tar.gz ./ntwrk
+scp -i etc/deploy_key -o StrictHostKeyChecking=no ntwrk.tar.gz $HOST:$TMP
+scp -i etc/deploy_key -o StrictHostKeyChecking=no etc/ntwrk.service $HOST:$SERVICE_DIR
+
+ssh -i etc/deploy_key -o StrictHostKeyChecking=no $HOST <<-EOF
+	set -e -x
+
+	systemctl daemon-reload
+
+	mkdir -p $DIR
+	tar -xzf $TMP -C $DIR --strip-components=1
+
+	ln -nsf $DIR $ROOT/cur
+	sudo service ntwrk restart
+
+    curl -I https://ntwrk.waits.io
+
+	rm $TMP
+	cd $ROOT/rel && ls -t | tail -n +6 | xargs rm -rf
+EOF

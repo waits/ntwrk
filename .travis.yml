@@ -1,0 +1,20 @@
+language: go
+go:
+- 1.7.5
+- 1.8
+go_import_path: github.com/waits/ntwrk
+env: GIMME_OS=linux GIMME_ARCH=amd64
+before_install:
+- openssl aes-256-cbc -K $encrypted_4883e2c968e4_key -iv $encrypted_4883e2c968e4_iv
+  -in etc/deploy_key.enc -out etc/deploy_key -d
+- chmod 600 etc/deploy_key
+script:
+- etc/build
+deploy:
+  provider: script
+  script: etc/deploy
+  on:
+    go: 1.8
+  skip_cleanup: true
+notifications:
+  email: false
