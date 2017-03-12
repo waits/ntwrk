@@ -2,13 +2,15 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net"
 	"strings"
 )
 
-// startServer starts a network test server on `addr`.
-func startServer(addr string) {
+// startServer starts a network test server on `port`.
+func startServer(port int) {
+	addr := fmt.Sprintf(":%d", port)
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal(err)

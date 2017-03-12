@@ -9,7 +9,7 @@ import (
 
 const timeout = time.Duration(15) * time.Second
 
-var SUFFIXES = [...]string{"B", "kB", "MB", "GB", "TB", "PB", "EB"}
+var suffixes = [...]string{"B", "kB", "MB", "GB", "TB", "PB", "EB"}
 
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
@@ -18,10 +18,10 @@ type testContext struct {
 	Addr   string
 }
 
-// startServer starts a network test client on `addr`.
-func startClient(addr string) {
-	perform(testContext{"download", download, addr})
-	perform(testContext{"upload", upload, addr})
+// startClient starts the network test suite.
+func startClient(host string) {
+	perform(testContext{"download", download, host})
+	perform(testContext{"upload", upload, host})
 }
 
 // perform runs a network test and prints the recorded bandwidth.
@@ -50,8 +50,8 @@ func format(bytes int, seconds float64) string {
 		return fmt.Sprintf("%.2f B/s", raw)
 	}
 
-	exp := math.Floor(math.Log(raw) / math.Log(BASE))
-	suffix := SUFFIXES[int(exp)]
-	bandwidth := raw / math.Pow(BASE, exp)
+	exp := math.Floor(math.Log(raw) / math.Log(unit_base))
+	suffix := suffixes[int(exp)]
+	bandwidth := raw / math.Pow(unit_base, exp)
 	return fmt.Sprintf("%.2f %s/s", bandwidth, suffix)
 }

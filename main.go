@@ -1,12 +1,14 @@
 // Command ntwrk is a tool for testing network performance.
 package main
 
-import "fmt"
-import "os"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
 
-const ADDR = ":1600"
-const BASE = 1024
-const VERSION = "0.1.0-alpha"
+const unit_base = 1024
+const version = "0.1.0-alpha"
 
 func main() {
 	var cmd string
@@ -16,15 +18,23 @@ func main() {
 		cmd = "help"
 	}
 
+	serverFlags := flag.NewFlagSet("server", flag.ExitOnError)
+	port := serverFlags.Int("port", 1600, "port to listen on")
+
+	clientFlags := flag.NewFlagSet("client", flag.ExitOnError)
+	host := clientFlags.String("host", "ntwrk.waits.io:1600", "server to test against")
+
 	switch cmd {
 	case "help":
 		help()
 	case "server":
-		startServer(ADDR)
+		serverFlags.Parse(os.Args[2:])
+		startServer(*port)
 	case "test":
-		startClient(ADDR)
+		clientFlags.Parse(os.Args[2:])
+		startClient(*host)
 	case "version":
-		fmt.Printf("ntwrk version %s\n", VERSION)
+		fmt.Printf("ntwrk version %s\n", version)
 	default:
 		fmt.Printf("Unknown command '%v'.\n", cmd)
 	}
