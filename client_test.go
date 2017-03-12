@@ -3,7 +3,7 @@ package main
 import "testing"
 
 type Example struct {
-	Bytes   int
+	Bytes   int64
 	Seconds float64
 	Output  string
 }

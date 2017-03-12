@@ -14,7 +14,7 @@ var suffixes = [...]string{"b", "kb", "Mb", "Gb", "Tb", "Pb", "Eb"}
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
 	Action string
-	Fn     func(net.Conn, time.Duration) (int, error)
+	Fn     func(net.Conn, time.Duration) (int64, error)
 	Addr   string
 }
 
@@ -44,7 +44,7 @@ func perform(ctx testContext) {
 }
 
 // format returns the humanized bandwidth based on `bytes` and `seconds`.
-func format(bytes int, seconds float64) string {
+func format(bytes int64, seconds float64) string {
 	raw := float64(bytes*8) / seconds
 	if raw <= 10 {
 		return fmt.Sprintf("%.2f b/s", raw)
