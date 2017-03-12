@@ -25,7 +25,7 @@ func TestDownload(t *testing.T) {
 	addr := ":1616"
 	listen(t, addr, func(conn net.Conn) {
 		for {
-			conn.Write([]byte(DATA))
+			conn.Write([]byte(sampleData))
 		}
 	})
 

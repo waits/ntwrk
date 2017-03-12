@@ -1,9 +1,10 @@
 package main
 
 import "net"
+import "strings"
 import "time"
 
-const DATA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+const sampleData = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 // download reads data from `conn` and returns the number of bytes read.
 func download(conn net.Conn, timeout time.Duration) (bytes int, err error) {
@@ -28,8 +29,9 @@ func upload(conn net.Conn, timeout time.Duration) (bytes int, err error) {
 		conn.SetDeadline(time.Now().Add(timeout))
 	}
 
+	chunk := strings.Repeat(sampleData, 128)
 	for {
-		n, err := conn.Write([]byte(DATA))
+		n, err := conn.Write([]byte(chunk))
 		if err != nil {
 			break
 		}

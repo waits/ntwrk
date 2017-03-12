@@ -50,8 +50,8 @@ func format(bytes int, seconds float64) string {
 		return fmt.Sprintf("%.2f b/s", raw)
 	}
 
-	exp := math.Floor(math.Log(raw) / math.Log(unit_base))
+	exp := math.Floor(math.Log(raw) / math.Log(unitBase))
 	suffix := suffixes[int(exp)]
-	bandwidth := raw / math.Pow(unit_base, exp)
+	bandwidth := raw / math.Pow(unitBase, exp)
 	return fmt.Sprintf("%.2f %s/s", bandwidth, suffix)
 }
