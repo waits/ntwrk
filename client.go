@@ -9,7 +9,7 @@ import (
 
 const timeout = time.Duration(15) * time.Second
 
-var suffixes = [...]string{"B", "kB", "MB", "GB", "TB", "PB", "EB"}
+var suffixes = [...]string{"b", "kb", "Mb", "Gb", "Tb", "Pb", "Eb"}
 
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
@@ -45,9 +45,9 @@ func perform(ctx testContext) {
 
 // format returns the humanized bandwidth based on `bytes` and `seconds`.
 func format(bytes int, seconds float64) string {
-	raw := float64(bytes) / seconds
+	raw := float64(bytes*8) / seconds
 	if raw <= 10 {
-		return fmt.Sprintf("%.2f B/s", raw)
+		return fmt.Sprintf("%.2f b/s", raw)
 	}
 
 	exp := math.Floor(math.Log(raw) / math.Log(unit_base))

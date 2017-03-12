@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const unit_base = 1024
+const unit_base = 1000
 const version = "0.1.0-alpha"
 
 func main() {
