@@ -24,7 +24,7 @@ var examples = [...]Example{
 
 func TestFormat(t *testing.T) {
 	for _, ex := range examples {
-		s := format(ex.Bytes, ex.Seconds)
+		s := formatBytes(ex.Bytes, ex.Seconds)
 		if s != ex.Output {
 			t.Errorf("incorrect output: got %s want %s", s, ex.Output)
 		}

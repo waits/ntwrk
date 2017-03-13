@@ -29,8 +29,8 @@ func startServer(port int) {
 func handle(conn net.Conn) {
 	defer conn.Close()
 
-	remote := conn.RemoteAddr()
-	log.Printf("New connection from %v", remote)
+	remote := formatIP(conn.RemoteAddr())
+	log.Printf("New connection from %s", remote)
 
 	buf := bufio.NewReader(conn)
 	msg, _ := buf.ReadString('\n')
@@ -38,10 +38,13 @@ func handle(conn net.Conn) {
 	switch action {
 	case ":download":
 		bytes, _ := upload(conn, 0)
-		log.Printf("Sent %d bytes to %v", bytes, remote)
+		log.Printf("Sent %d bytes to %s", bytes, remote)
 	case ":upload":
 		bytes, _ := download(conn, 0)
-		log.Printf("Received %d bytes from %v", bytes, remote)
+		log.Printf("Received %d bytes from %s", bytes, remote)
+	case ":whoami":
+		conn.Write([]byte(remote + "\n"))
+		log.Printf("Replied to whoami from %s", remote)
 	default:
 		log.Printf("Unknown action %s", action)
 	}

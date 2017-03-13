@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"net"
 	"time"
 )
@@ -40,18 +39,17 @@ func perform(ctx testContext) {
 	}
 
 	elapsed := time.Since(t).Seconds()
-	fmt.Printf("%s bandwidth: %s\n", ctx.Action, format(bytes, elapsed))
+	fmt.Printf("%s bandwidth: %s\n", ctx.Action, formatBytes(bytes, elapsed))
 }
 
-// format returns the humanized bandwidth based on `bytes` and `seconds`.
-func format(bytes int64, seconds float64) string {
-	raw := float64(bytes*8) / seconds
-	if raw <= 10 {
-		return fmt.Sprintf("%.2f b/s", raw)
+// whoami requests the client's external IP address from `host` and prints it.
+func whoami(host string) {
+	conn, err := net.Dial("tcp", host)
+	if err != nil {
+		panic(err)
 	}
-
-	exp := math.Floor(math.Log(raw) / math.Log(unitBase))
-	suffix := suffixes[int(exp)]
-	bandwidth := raw / math.Pow(unitBase, exp)
-	return fmt.Sprintf("%.2f %s/s", bandwidth, suffix)
+	conn.Write([]byte(":whoami\n"))
+	resp := make([]byte, 40)
+	conn.Read(resp)
+	fmt.Print(string(resp))
 }

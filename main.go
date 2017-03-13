@@ -27,6 +27,9 @@ func main() {
 	switch cmd {
 	case "help":
 		help()
+	case "ip":
+		clientFlags.Parse(os.Args[2:])
+		whoami(*host)
 	case "server":
 		serverFlags.Parse(os.Args[2:])
 		startServer(*port)
@@ -41,9 +44,10 @@ func main() {
 }
 
 func help() {
-	cmds := [4]string{"help", "server", "test", "version"}
-	descriptions := [4]string{
+	cmds := [5]string{"help", "ip\t", "server", "test", "version"}
+	descriptions := [5]string{
 		"Show this help message",
+		"Print external IP address",
 		"Start a test server",
 		"Run performance tests",
 		"Print version number"}
