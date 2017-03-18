@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"net"
@@ -34,11 +33,8 @@ func handle(conn net.Conn) {
 	remote := formatIP(conn.RemoteAddr())
 	log.Printf("New connection from %s", remote)
 
-	buf := bufio.NewReader(conn)
-	msg, _ := buf.ReadString('\n')
-
 	var clientProto, action string
-	fmt.Sscanf(msg, protoFmt, &clientProto, &action)
+	fmt.Fscanf(conn, protoFmt, &clientProto, &action)
 	if clientProto != proto {
 		msg := fmt.Sprintf(protoErr, proto)
 		conn.Write([]byte(msg))
@@ -53,8 +49,8 @@ func handle(conn net.Conn) {
 		bytes, _ := download(conn, 0)
 		log.Printf("Received %d bytes from %s", bytes, remote)
 	case "whoami":
-		conn.Write([]byte(remote + "\r\n"))
-		log.Printf("Replied to whoami from %s", remote)
+		fmt.Fprintf(conn, "%s\r\n", remote)
+		log.Printf("Identified %s", remote)
 	default:
 		conn.Write([]byte(actionErr))
 	}

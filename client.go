@@ -46,9 +46,7 @@ func openConn(host string, action string) (conn net.Conn) {
 		panic(err)
 	}
 
-	msg := fmt.Sprintf(protoFmt, proto, action)
-	conn.Write([]byte(msg))
-
+	fmt.Fprintf(conn, protoFmt, proto, action)
 	return
 }
 
