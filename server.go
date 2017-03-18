@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strings"
 )
+
+const protoErr = "Unknown protocol, expected ntwrk%s\r\n"
+const actionErr = "Unknown action\r\n"
 
 // startServer starts a network test server on `port`.
 func startServer(port int) {
@@ -34,18 +36,26 @@ func handle(conn net.Conn) {
 
 	buf := bufio.NewReader(conn)
 	msg, _ := buf.ReadString('\n')
-	action := strings.TrimSpace(msg)
+
+	var clientProto, action string
+	fmt.Sscanf(msg, protoFmt, &clientProto, &action)
+	if clientProto != proto {
+		msg := fmt.Sprintf(protoErr, proto)
+		conn.Write([]byte(msg))
+		return
+	}
+
 	switch action {
-	case ":download":
+	case "download":
 		bytes, _ := upload(conn, 0)
 		log.Printf("Sent %d bytes to %s", bytes, remote)
-	case ":upload":
+	case "upload":
 		bytes, _ := download(conn, 0)
 		log.Printf("Received %d bytes from %s", bytes, remote)
-	case ":whoami":
-		conn.Write([]byte(remote + "\n"))
+	case "whoami":
+		conn.Write([]byte(remote + "\r\n"))
 		log.Printf("Replied to whoami from %s", remote)
 	default:
-		log.Printf("Unknown action %s", action)
+		conn.Write([]byte(actionErr))
 	}
 }

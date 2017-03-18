@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const unitBase = 1000
+
 // formatBytes returns the humanized bandwidth based on `bytes` and `seconds`.
 func formatBytes(bytes int64, seconds float64) string {
 	raw := float64(bytes*8) / seconds
