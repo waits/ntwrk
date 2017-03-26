@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 )
 
 const proto = "0.1"
@@ -37,7 +38,7 @@ func main() {
 		clientFlags.Parse(os.Args[2:])
 		startClient(*host)
 	case "version":
-		fmt.Printf("ntwrk version %s\n", version)
+		fmt.Printf("ntwrk version %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
 		fmt.Printf("Unknown command '%v'.\n", cmd)
 	}
