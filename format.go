@@ -5,9 +5,12 @@ import (
 	"math"
 	"net"
 	"strings"
+	"time"
 )
 
 const unitBase = 1000
+
+var suffixes = [...]string{"b", "kb", "Mb", "Gb", "Tb", "Pb", "Eb"}
 
 // formatBytes returns the humanized bandwidth based on `bytes` and `seconds`.
 func formatBytes(bytes int64, seconds float64) string {
@@ -27,4 +30,11 @@ func formatIP(addr net.Addr) string {
 	chunks := strings.Split(addr.String(), ":")
 	ip := strings.Join(chunks[0:len(chunks)-1], ":")
 	return strings.Trim(ip, "[]")
+}
+
+// formatProgress constructs a progress bar string for `n / d`.
+func formatProgress(n, d time.Duration) string {
+	ratio := float64(n) / float64(d)
+	bar := strings.Repeat("=", int(ratio*20+0.5))
+	return fmt.Sprintf("[%-20s] %3.0f%%", bar, ratio*100)
 }

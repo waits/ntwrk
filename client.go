@@ -9,8 +9,6 @@ import (
 const protoFmt = "ntwrk%s :%s\r\n"
 const timeout = time.Duration(15) * time.Second
 
-var suffixes = [...]string{"b", "kb", "Mb", "Gb", "Tb", "Pb", "Eb"}
-
 // testContext holds a test function, action name, and address to connect to.
 type testContext struct {
 	Action string
@@ -28,15 +26,25 @@ func startClient(host string) {
 func perform(ctx testContext) {
 	conn := openConn(ctx.Addr, ctx.Action)
 
-	t := time.Now()
+	since := time.Now()
+	ticker := time.NewTicker(time.Millisecond * 150)
+	go func() {
+		for t := range ticker.C {
+			elapsed := t.Sub(since)
+			progress := formatProgress(elapsed, timeout)
+			fmt.Printf("\r %9s: %s", ctx.Action, progress)
+		}
+	}()
+	defer ticker.Stop()
+
 	bytes, err := ctx.Fn(conn, timeout)
 	if err != nil {
 		fmt.Printf("error: %s\n", err.Error())
 		return
 	}
 
-	elapsed := time.Since(t).Seconds()
-	fmt.Printf("%s bandwidth: %s\n", ctx.Action, formatBytes(bytes, elapsed))
+	elapsed := time.Since(since).Seconds()
+	fmt.Printf(" %s\n", formatBytes(bytes, elapsed))
 }
 
 // openConn opens a connection to `host` and writes a formatted message to it.
