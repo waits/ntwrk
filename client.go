@@ -17,9 +17,10 @@ type testContext struct {
 }
 
 // startClient starts the network test suite.
-func startClient(host string) {
-	perform(testContext{"download", download, host})
-	perform(testContext{"upload", upload, host})
+func startClient(host string, port int) {
+	addr := fmt.Sprintf("%s:%d", host, port)
+	perform(testContext{"download", download, addr})
+	perform(testContext{"upload", upload, addr})
 }
 
 // perform runs a network test and prints the recorded bandwidth.
@@ -59,9 +60,10 @@ func openConn(host string, action string) (conn net.Conn) {
 }
 
 // whoami requests the client's external IP address from `host` and prints it.
-func whoami(host string) {
+func whoami(host string, port int) {
+	addr := fmt.Sprintf("%s:%d", host, port)
 	resp := make([]byte, 40)
-	conn := openConn(host, "whoami")
+	conn := openConn(addr, "whoami")
 	conn.Read(resp)
 	fmt.Print(string(resp))
 }

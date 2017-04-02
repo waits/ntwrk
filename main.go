@@ -19,24 +19,21 @@ func main() {
 		cmd = "help"
 	}
 
-	serverFlags := flag.NewFlagSet("server", flag.ExitOnError)
-	port := serverFlags.Int("port", 1600, "port to listen on")
-
 	clientFlags := flag.NewFlagSet("client", flag.ExitOnError)
-	host := clientFlags.String("host", "ntwrk.waits.io:1600", "server to test against")
+	host := clientFlags.String("host", "ntwrk.waits.io", "server to test against")
+	port := 1600
 
 	switch cmd {
 	case "help":
 		help()
 	case "ip":
 		clientFlags.Parse(os.Args[2:])
-		whoami(*host)
+		whoami(*host, port)
 	case "server":
-		serverFlags.Parse(os.Args[2:])
-		startServer(*port)
+		startServer(port)
 	case "test":
 		clientFlags.Parse(os.Args[2:])
-		startClient(*host)
+		startClient(*host, port)
 	case "version":
 		fmt.Printf("ntwrk version %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
