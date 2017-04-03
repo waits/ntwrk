@@ -34,6 +34,9 @@ func main() {
 	case "test":
 		clientFlags.Parse(os.Args[2:])
 		startClient(*host, port)
+	case "update":
+		clientFlags.Parse(os.Args[2:])
+		update(*host)
 	case "version":
 		fmt.Printf("ntwrk version %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
@@ -42,12 +45,13 @@ func main() {
 }
 
 func help() {
-	cmds := [5]string{"help", "ip\t", "server", "test", "version"}
-	descriptions := [5]string{
+	cmds := []string{"help", "ip\t", "server", "test", "update", "version"}
+	descriptions := []string{
 		"Show this help message",
 		"Print external IP address",
 		"Start a test server",
 		"Run performance tests",
+		"Checks for and downloads an updated binary",
 		"Print version number"}
 
 	fmt.Print("usage: ntwrk <command> [arguments]\n\n")
