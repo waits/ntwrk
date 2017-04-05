@@ -20,7 +20,8 @@ deploy:
     api_key:
       secure: P3wWX8KP1B1zbrJVTsAOvfIqjmEkt4FQPecJAY9gt2hEECORHbzbkpbYUUOtMpf7XJZq2cGwFdl/+DvAX0fKdv3eyCeck6Kvek1OcAW30ioqmtG/5ZzEFplsG5Qp+NHjwMMt533zduyXmn7fKsB38Ti4jKJDLMTOkiWFxM6YcpC6Zf4G4r4uh8OycGtefmGEyAmvWMGajQDZVRqWor1p/SAOkdBeTjPo9XiT8jEzy4AhsVEH19gOtFflQjRCnYXYAEYr+hRUYsAWy92IoZVrTEXOdlCLQGTifo0JUM/ZD85NSd1hlegLuDkt17OL7QwC+RbDiD1cY2QU4Py+BA0JWYSui9XZeiLYIwpttoRx1jI56lQffY8ivaya7qHZvT5igqhYCO9bfLq7HfnAg4KsRgdcVQjUeaBRlMvD7j2HyKqzc/lqGUJVmP6yyNKmNuyzit1dqoGBAH6InGb7G/4YD9rhXFduTqRkcqHVc+hEJg7nFvc6JjfxXEkTDf2muu5oZnYlcqTqf6Vo3a4DpCZWjoLCyIFkpw3qYe1bKkEHxwzl1PjDbVxEHctckQY11GKuADoPg6blOVjL93CuM+F3CQRQCg64V0AMivXl99bYinDVYHV96D+mM+jhK9Ef9j8N8+cUDdgleKiOSejDr/Q5WTGVmDWLdSzxILOEgt+BWJ0=
     file:
-      - ntwrk-*
+      - ntwrk-darwin-amd64
+      - ntwrk-linux-amd64
     on:
       repo: waits/ntwrk
       tags: true
