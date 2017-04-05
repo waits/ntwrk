@@ -9,7 +9,6 @@ before_install:
 - chmod 600 etc/deploy_key
 script:
 - etc/build
-before_deploy: etc/release
 deploy:
   - provider: script
     script: etc/deploy

@@ -11,6 +11,10 @@ err="$(go vet ./...)"
 if [[ -n $err ]]; then echo "go vet: ${err}" && exit 2; fi
 
 go test -v ./...
+go test -v -race ./...
 go build -v
+
+GOOS=darwin GOARCH=amd64 go build -v -o ntwrk-darwin-amd64
+GOOS=linux GOARCH=amd64 go build -v -o ntwrk-linux-amd64
 
 exit 0

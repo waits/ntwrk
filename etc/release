@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Builds release binaries for multiple architectures.
-
-set -e -x
-
-GOOS=darwin GOARCH=amd64 go build -v -o ntwrk-darwin-amd64
-GOOS=linux GOARCH=amd64 go build -v -o ntwrk-linux-amd64
