@@ -9,7 +9,7 @@ import (
 )
 
 const proto = "0.1"
-const version = "0.1-alpha"
+const version = "0.1-beta"
 
 func main() {
 	var cmd string
