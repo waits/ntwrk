@@ -9,7 +9,8 @@ import (
 )
 
 const proto = "0.1"
-const version = "0.1-beta"
+
+var version = "dev"
 
 func main() {
 	var cmd string
@@ -38,7 +39,7 @@ func main() {
 		clientFlags.Parse(os.Args[2:])
 		update(*host)
 	case "version":
-		fmt.Printf("ntwrk version %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
+		fmt.Printf("ntwrk %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
 		fmt.Printf("Unknown command '%v'.\n", cmd)
 	}
