@@ -43,7 +43,7 @@ func update(host string) {
 		fmt.Println("error:", err)
 		return
 	}
-	if rel.Tag == "v"+version {
+	if rel.Tag == version {
 		fmt.Println("No update available.")
 		return
 	}
