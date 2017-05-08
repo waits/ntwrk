@@ -14,7 +14,6 @@ go test -v ./...
 go test -v -race ./...
 
 ldflags="-X main.version=$(git describe --tags)"
-go build -v -ldflags "$ldflags"
 GOOS=darwin GOARCH=amd64 go build -v -o ntwrk-darwin-amd64 -ldflags "$ldflags"
 GOOS=linux GOARCH=amd64 go build -v -o ntwrk-linux-amd64 -ldflags "$ldflags"
 
