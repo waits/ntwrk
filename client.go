@@ -25,7 +25,11 @@ func startClient(host string, port int) {
 
 // perform runs a network test and prints the recorded bandwidth.
 func perform(ctx testContext) {
-	conn := openConn(ctx.Addr, ctx.Action)
+	conn, err := openConn(ctx.Addr, ctx.Action)
+	if err != nil {
+		fmt.Printf("error: %s\n", err.Error())
+		return
+	}
 
 	since := time.Now()
 	ticker := time.NewTicker(time.Millisecond * 150)
@@ -49,10 +53,10 @@ func perform(ctx testContext) {
 }
 
 // openConn opens a connection to `host` and writes a formatted message to it.
-func openConn(host string, action string) (conn net.Conn) {
-	conn, err := net.Dial("tcp", host)
+func openConn(host string, action string) (conn net.Conn, err error) {
+	conn, err = net.Dial("tcp", host)
 	if err != nil {
-		panic(err)
+		return
 	}
 
 	fmt.Fprintf(conn, protoFmt, proto, action)
@@ -63,7 +67,13 @@ func openConn(host string, action string) (conn net.Conn) {
 func whoami(host string, port int) {
 	addr := fmt.Sprintf("%s:%d", host, port)
 	resp := make([]byte, 40)
-	conn := openConn(addr, "whoami")
+
+	conn, err := openConn(addr, "whoami")
+	if err != nil {
+		fmt.Printf("error: %s\n", err.Error())
+		return
+	}
+
 	conn.Read(resp)
 	fmt.Print(string(resp))
 }
