@@ -1,6 +1,6 @@
 language: go
 go:
-  - 1.8.1
+  - 1.8.3
 go_import_path: github.com/waits/ntwrk
 env: GIMME_OS=linux GIMME_ARCH=amd64
 before_install:
@@ -13,7 +13,7 @@ deploy:
   - provider: script
     script: etc/deploy
     on:
-      go: 1.8.1
+      go: 1.8.3
     skip_cleanup: true
   - provider: releases
     api_key:
