@@ -32,7 +32,7 @@ func main() {
 		whoami(*host, port)
 	case "server":
 		startServer(port)
-	case "test":
+	case "run":
 		clientFlags.Parse(os.Args[2:])
 		startClient(*host, port)
 	case "update":
@@ -46,12 +46,12 @@ func main() {
 }
 
 func help() {
-	cmds := []string{"help", "ip\t", "server", "test", "update", "version"}
+	cmds := []string{"help", "ip\t", "run\t", "server", "update", "version"}
 	descriptions := []string{
 		"Show this help message",
 		"Print external IP address",
-		"Start a test server",
 		"Run performance tests",
+		"Start a test server",
 		"Checks for and downloads an updated binary",
 		"Print version number"}
 

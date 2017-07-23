@@ -17,12 +17,12 @@ CLI and server for testing network performance. Supports macOS and 64-bit Linux.
 usage: ntwrk <command> [arguments]
 
 commands:
-    help	Show this help message
-    ip		Print external IP address
-    server	Start a test server
-    test	Run performance tests
-    update	Check for and download an updated binary
-    version	Print version number
+    help    Show this help message
+    ip      Print external IP address
+    run     Run performance tests
+    server  Start a test server
+    update  Checks for and downloads an updated binary
+    version Print version number
 ```
 
-The `ip` and `test` commands take a `-host` flag to test against a custom server (default is `ntwrk.waits.io`). The client and server currently only run on port 1600.
+The `ip` and `run` commands take a `-host` flag to test against a custom server (default is `ntwrk.waits.io`). The client and server currently only run on port 1600.
