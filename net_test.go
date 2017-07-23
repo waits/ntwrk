@@ -63,3 +63,25 @@ func TestUpload(t *testing.T) {
 		t.Fatalf("too few bytes written: got %d want %d", bytes, expected)
 	}
 }
+
+func TestEcho(t *testing.T) {
+	addr := ":1618"
+	msg := "echo\r\n"
+	listen(t, addr, func(conn net.Conn) {
+		resp := make([]byte, 6)
+		for {
+			conn.Write([]byte(msg))
+			conn.Read(resp)
+			if string(resp) != msg {
+				t.Fatalf("invalid echo: got %v want %v", resp, []byte(msg))
+			}
+		}
+	})
+
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	echo(conn, time.Millisecond)
+}

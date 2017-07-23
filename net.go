@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net"
@@ -35,4 +36,20 @@ func upload(conn net.Conn, timeout time.Duration) (bytes int64, err error) {
 		bytes += int64(n)
 	}
 	return
+}
+
+// echo echoes all received lines back to the client.
+func echo(conn net.Conn, timeout time.Duration) {
+	if timeout > 0 {
+		conn.SetDeadline(time.Now().Add(timeout))
+	}
+
+	var msg string
+	for {
+		fmt.Fscanf(conn, "%s\r\n", &msg)
+		_, err := conn.Write([]byte(msg + "\r\n"))
+		if err != nil {
+			break
+		}
+	}
 }

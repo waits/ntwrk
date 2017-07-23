@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+const pingCount = 10
 const protoFmt = "ntwrk%s :%s\r\n"
 const timeout = time.Duration(15) * time.Second
 
@@ -19,6 +20,7 @@ type testContext struct {
 // startClient starts the network test suite.
 func startClient(host string, port int) {
 	addr := fmt.Sprintf("%s:%d", host, port)
+	ping(addr)
 	perform(testContext{"download", download, addr})
 	perform(testContext{"upload", upload, addr})
 }
@@ -52,15 +54,24 @@ func perform(ctx testContext) {
 	fmt.Printf(" %s\n", formatBytes(bytes, elapsed))
 }
 
-// openConn opens a connection to `host` and writes a formatted message to it.
-func openConn(host string, action string) (conn net.Conn, err error) {
-	conn, err = net.Dial("tcp", host)
+// ping performs a network latency test.
+func ping(addr string) {
+	conn, err := openConn(addr, "echo")
 	if err != nil {
+		fmt.Printf("error: %s\n", err.Error())
 		return
 	}
-
-	fmt.Fprintf(conn, protoFmt, proto, action)
-	return
+	resp := make([]byte, 6)
+	since := time.Now()
+	for i := 0; i < pingCount; i++ {
+		conn.Write([]byte("echo\r\n"))
+		conn.Read(resp)
+		if string(resp) != "echo\r\n" {
+			panic("error: invalid echo")
+		}
+	}
+	elapsed := time.Since(since) / pingCount
+	fmt.Printf("\r %9s: %s\n", "latency", elapsed)
 }
 
 // whoami requests the client's external IP address from `host` and prints it.
@@ -76,4 +87,15 @@ func whoami(host string, port int) {
 
 	conn.Read(resp)
 	fmt.Print(string(resp))
+}
+
+// openConn opens a connection to `host` and writes a formatted message to it.
+func openConn(host string, action string) (conn net.Conn, err error) {
+	conn, err = net.Dial("tcp", host)
+	if err != nil {
+		return
+	}
+
+	fmt.Fprintf(conn, protoFmt, proto, action)
+	return
 }

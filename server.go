@@ -42,6 +42,9 @@ func handle(conn net.Conn) {
 	}
 
 	switch action {
+	case "echo":
+		echo(conn, 0)
+		log.Printf("Echoed %s", remote)
 	case "download":
 		bytes, _ := upload(conn, 0)
 		log.Printf("Sent %d bytes to %s", bytes, remote)
