@@ -67,7 +67,8 @@ func ping(addr string) {
 		conn.Write([]byte("echo\r\n"))
 		conn.Read(resp)
 		if string(resp) != "echo\r\n" {
-			panic("error: invalid echo")
+			fmt.Println("error: invalid echo reply")
+			return
 		}
 	}
 	elapsed := time.Since(since) / pingCount
