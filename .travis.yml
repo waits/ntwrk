@@ -23,6 +23,8 @@ deploy:
     script: etc/deploy
     on:
       go: 1.8.3
+      repo: waits/ntwrk
+      tags: true
     skip_cleanup: true
   - provider: releases
     api_key:
@@ -31,6 +33,7 @@ deploy:
       - ntwrk-darwin-amd64
       - ntwrk-linux-amd64
     on:
+      go: 1.8.3
       repo: waits/ntwrk
       tags: true
     skip_cleanup: true
