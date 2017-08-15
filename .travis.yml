@@ -1,7 +1,7 @@
 language: go
 go:
   - 1.8.3
-  - 1.9rc1
+  - 1.9rc2
   - master
 go_import_path: github.com/waits/ntwrk
 env: GIMME_OS=linux GIMME_ARCH=amd64
