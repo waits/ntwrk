@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"runtime"
+
+	"github.com/waits/update"
 )
 
 const proto = "0.1"
@@ -36,8 +38,7 @@ func main() {
 		clientFlags.Parse(os.Args[2:])
 		startClient(*host, port)
 	case "update":
-		clientFlags.Parse(os.Args[2:])
-		update(*host)
+		update.Apply("waits/ntwrk", version)
 	case "version":
 		fmt.Printf("ntwrk %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
