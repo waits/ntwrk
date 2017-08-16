@@ -8,6 +8,7 @@ env: GIMME_OS=linux GIMME_ARCH=amd64
 
 matrix:
   allow_failures:
+    - go: 1.9rc2
     - go: master
 
 before_install:
