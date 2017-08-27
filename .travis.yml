@@ -1,14 +1,13 @@
 language: go
 go:
   - 1.8.3
-  - 1.9rc2
+  - 1.9
   - master
 go_import_path: github.com/waits/ntwrk
 env: GIMME_OS=linux GIMME_ARCH=amd64
 
 matrix:
   allow_failures:
-    - go: 1.9rc2
     - go: master
 
 before_install:
