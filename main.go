@@ -11,8 +11,9 @@ import (
 )
 
 const proto = "0.1"
+const updateUrl = "https://api.github.com/repos/waits/ntwrk/releases/latest"
 
-var version = "dev"
+var version = update.Version{Major: 0, Minor: 0, Patch: 0}
 
 func main() {
 	var cmd string
@@ -38,7 +39,7 @@ func main() {
 		clientFlags.Parse(os.Args[2:])
 		startClient(*host, port)
 	case "update":
-		update.Apply("waits/ntwrk", version)
+		update.Auto(version, updateUrl, update.CheckGithub)
 	case "version":
 		fmt.Printf("ntwrk %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 	default:
