@@ -13,7 +13,8 @@ import (
 const proto = "0.1"
 const updateUrl = "https://api.github.com/repos/waits/ntwrk/releases/latest"
 
-var version = update.Version{Major: 0, Minor: 0, Patch: 0}
+var tag string
+var version = update.ParseVersion(tag)
 
 func main() {
 	var cmd string
