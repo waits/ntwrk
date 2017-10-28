@@ -1,7 +1,7 @@
 language: go
 go:
-  - 1.8.4
-  - 1.9.1
+  - 1.8
+  - 1.9
   - master
 go_import_path: github.com/waits/ntwrk
 env: GIMME_OS=linux GIMME_ARCH=amd64
@@ -22,7 +22,7 @@ deploy:
   - provider: script
     script: etc/deploy
     on:
-      go: 1.9.1
+      go: 1.9
       repo: waits/ntwrk
       tags: true
     skip_cleanup: true
@@ -33,7 +33,7 @@ deploy:
       - ntwrk-darwin-amd64
       - ntwrk-linux-amd64
     on:
-      go: 1.9.1
+      go: 1.9
       repo: waits/ntwrk
       tags: true
     skip_cleanup: true
